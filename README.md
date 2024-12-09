@@ -174,46 +174,8 @@ def analyze_email(email_content: str) -> SimplePhishingAnalysis:
     )
     return resp
 ```
-A continuación se realiza una prueba la función del análisis con correos electrónicos de ejemplo.
 
-```python
-# Ahora procedemos a realizar pruebas de la función de análisis con correos
-# electrónicos de ejemplos
-
-import json
-# Ejemplo de email phishing
-phishing_email = """
-From: security@amazonsupport.net
-To: john.doe@company.com
-Subject: Urgent: Your Amazon Account Has Been Locked
-
-Dear Valued Customer,
-
-We have detected unusual activity on your Amazon account. To prevent unauthorized access, we have temporarily locked your account for your protection.
-
-To unlock your account and restore full access, please click on the link below and verify your information:
-
-https://amaz0n-account-verify.com/unlock-account
-
-If you do not verify your account within 24 hours, it will be permanently disabled.
-
-Thank you for your prompt attention to this matter.
-
-Best regards,
-Amazon Security Team
-
-This email was sent by Amazon.com. To ensure delivery to your inbox, please add security@amazonsupport.net to your address book.
-"""
-
-analysis = analyze_email(phishing_email)
-print(json.dumps(analysis.model_dump(), indent=2))
-```
-
-En la siguiente imagen podemos evidenciar que la función empleada realiza el análisis del correo. Se puede observar que la probabilidad de phishing es alta y nos indica los elementos sospechos como la `dirección de correo del remitente` la `URL en el correo electrónico` y la `Sensación de urgencia`. Y nos detalla una razón de cada elemento sospechozo, también los detallas las acciones recomendadas para tomar en cuenta.
-
-<img width="1484" alt="Captura de pantalla 2024-12-06 a la(s) 22 04 10" src="https://github.com/user-attachments/assets/636e3b2c-f8ed-47bd-b9be-9dde4525947a">
-
-Se crea una interfaz gráfica de usuario sencilla para el análisis de correo electrónico mediante widgets de IPython. Solo aceptará como entrada un cuadro de texto, pero puede mejorarla utilizando un analizador de buzones de correo, compatibilidad con archivos adjuntos, extracciones de ioc, etc.
+Se crea una interfaz gráfica de usuario sencilla para el análisis de correo electrónico mediante widgets de IPython. Solo aceptará como entrada un cuadro de texto.
 
 ``` python
 # Crear una interfaz gráfica de usuario para el análisis de correo electrónico
@@ -277,5 +239,17 @@ def format_analysis(analysis: SimplePhishingAnalysis) -> str:
 display(email_input, analyze_button, output)
 ```
 
+## Pruebas
 
+Se realiza la prueba con correos electrónicos de phishing reales, provenientes de un conjunto de datos. Se hizo una muestra de 20 correos electrónicos y se obtuvieron los siguientes resultados:
+
+<img width="859" alt="Captura de pantalla 2024-12-08 a la(s) 23 04 45" src="https://github.com/user-attachments/assets/fc491ed5-af6a-4ee1-9578-78fd0f71d159"> <br>
+
+Se puede observar que de los veinte correos analizados, diecisiete de ellos resultan con una alta probabilidad de phishing, dos con una probabilidad media, y uno de ellos con una baja probabilidad. Quedando así demostrado la funcionalidad y precisión del sistema de análisis de phishing.
+
+También se realiza un top diez de los elementos sospechocos más comunes.
+
+<img width="1246" alt="Captura de pantalla 2024-12-08 a la(s) 23 09 35" src="https://github.com/user-attachments/assets/611a13af-2ac7-4b68-8924-b8df87cbdcda">
+
+Se puede evidenciar como la `Dirección de correo electrónico del remitente`, `Asunto del correo`, `Saludo genérico`, `Contenido`, `Link sospechoso` y `Sentido de urgencia` como uno de los elementos más sospechocos. 
 
